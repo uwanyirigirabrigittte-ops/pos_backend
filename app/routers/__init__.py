@@ -1,0 +1,9 @@
+from .category import router as category
+from .supplier import router as supplier
+from .products import router as product
+from .user import router as user
+from .customer import router as customer
+from .sale import router as sale
+from .sale_item import router as sale_item
+from .payment import router as payment
+from .receipt import router as receipt
