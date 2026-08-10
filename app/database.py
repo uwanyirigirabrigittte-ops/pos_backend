@@ -2,7 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 import os
 
-database_url = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/pos-db")
+database_url = os.getenv("DATABASE_URL")
+
+if not database_url:
+    database_url = "postgresql://postgres:postgres@localhost:5432/pos-db"
+    print("WARNING: DATABASE_URL not set, falling back to localhost")
 
 engine = create_engine(database_url, echo=False, future=True)
 

@@ -51,12 +51,15 @@ app.include_router(receipt_router)
 
 @app.on_event("startup")
 def startup():
-    for _ in range(10):
+    for attempt in range(10):
         try:
             Base.metadata.create_all(bind=engine)
-            break
-        except Exception:
-            time.sleep(2)
+            return
+        except Exception as e:
+            if attempt < 9:
+                time.sleep(2)
+            else:
+                raise RuntimeError(f"Failed to connect to database after 10 attempts: {e}")
 
 @app.get("/")
 def read_root():
