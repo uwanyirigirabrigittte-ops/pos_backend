@@ -1,6 +1,7 @@
 services:
   - type: pserv
     name: pos-db
+    env: docker       
     plan: free
     envVars:
       - key: POSTGRES_USER
