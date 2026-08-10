@@ -49,17 +49,20 @@ app.include_router(payment_router)
 app.include_router(receipt_router)
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 @app.on_event("startup")
 def startup():
-    for attempt in range(10):
+    for attempt in range(20):
         try:
             Base.metadata.create_all(bind=engine)
-            return
+            print("Database tables created successfully")
+            break
         except Exception as e:
-            if attempt < 9:
-                time.sleep(2)
-            else:
-                raise RuntimeError(f"Failed to connect to database after 10 attempts: {e}")
+            print(f"Database connection attempt {attempt + 1} failed: {e}")
+            time.sleep(3)
 
 @app.get("/")
 def read_root():
