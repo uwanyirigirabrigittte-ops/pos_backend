@@ -1,16 +1,5 @@
 services:
   - type: pyservice
-    name: pos-api
-    runtime: python-3.12
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    workingDirectory: app
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.4
-    plan: free
-
-  - type: pserv
     name: pos-db
     plan: free
     envVars:
@@ -20,3 +9,15 @@ services:
         value: postgres
       - key: POSTGRES_DB
         value: pos-db
+
+  - type: docker
+    name: pos-api
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          type: pyservice
+          name: pos-db
+          property: connectionString
