@@ -1,4 +1,15 @@
 services:
+  - type: pserv
+    name: pos-db
+    plan: free
+    envVars:
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        value: postgres
+      - key: POSTGRES_DB
+        value: pos-db
+
   - type: web
     name: pos-api
     env: docker
