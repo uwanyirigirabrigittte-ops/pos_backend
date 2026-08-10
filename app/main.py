@@ -1,3 +1,5 @@
+import time
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
@@ -26,8 +28,6 @@ from routers import (
     receipt as receipt_router,
 )
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="Bijoux's Store POS API", version="1")
 
 app.add_middleware(
@@ -47,6 +47,16 @@ app.include_router(sale_router)
 app.include_router(sale_item_router)
 app.include_router(payment_router)
 app.include_router(receipt_router)
+
+
+@app.on_event("startup")
+def startup():
+    for _ in range(10):
+        try:
+            Base.metadata.create_all(bind=engine)
+            break
+        except Exception:
+            time.sleep(2)
 
 @app.get("/")
 def read_root():
