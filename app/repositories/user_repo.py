@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.user import User
+from ..models.user import User
 
 class UserRepository:
     def __init__(self):
@@ -10,6 +10,9 @@ class UserRepository:
     
     def get_all(self, db: Session):
         return db.query(User).all()
+
+    def get_by_username(self, db: Session, username: str):
+        return db.query(User).filter(User.username == username).first()
 
     def create(self, db: Session, data: dict):
         user = User(**data)

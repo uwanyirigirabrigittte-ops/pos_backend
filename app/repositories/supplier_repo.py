@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.supplier import Supplier
+from ..models.supplier import Supplier
 
 class SupplierRepository:
     def __init__(self):

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from schemas.payment import PaymentCreate, PaymentRead, PaymentUpdate
-from services import payment_service
+from ..database import get_db
+from ..schemas.payment import PaymentCreate, PaymentRead, PaymentUpdate
+from ..services import payment_service
 
 router = APIRouter(prefix="/payments", tags=["payments"])
 

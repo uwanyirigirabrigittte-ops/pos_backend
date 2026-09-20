@@ -1,16 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.pool import StaticPool
 import os
 
 database_url = os.getenv("DATABASE_URL")
 
 if not database_url:
-    raise RuntimeError(
-        "DATABASE_URL environment variable is not set. "
-        "Please set it in Render dashboard or render.yaml."
-    )
+    database_url = "sqlite:///./local.db"
 
-engine = create_engine(database_url, echo=False, future=True)
+if database_url.startswith("sqlite"):
+    engine = create_engine(
+        database_url,
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+else:
+    engine = create_engine(database_url, echo=False, future=True)
 
 session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

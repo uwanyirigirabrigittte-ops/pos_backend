@@ -2,9 +2,9 @@ import time
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import Base, engine
+from .database import Base, engine
 
-from models import (
+from .models import (
     category,
     supplier,
     product,
@@ -16,7 +16,7 @@ from models import (
     receipt,
 )
 
-from routers import (
+from .routers import (
     category as category_router,
     supplier as supplier_router,
     product as product_router,

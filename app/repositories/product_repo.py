@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.product import Product
+from ..models.product import Product
 
 class ProductRepository:
     def __init__(self):

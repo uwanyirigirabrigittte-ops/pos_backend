@@ -19,3 +19,9 @@ services:
     envVars:
       - key: DATABASE_URL
         value: postgres://postgres:postgres@pos-db:5432/pos-db
+      - key: JWT_SECRET_KEY
+        value: change-me-to-a-secret-key-32-chars
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"

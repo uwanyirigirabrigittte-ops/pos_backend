@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from schemas.sale import SaleCreate, SaleRead, SaleUpdate
-from services import sale_service
+from ..database import get_db
+from ..schemas.sale import SaleCreate, SaleRead, SaleUpdate
+from ..services import sale_service
 
 router = APIRouter(prefix="/sales", tags=["sales"])
 

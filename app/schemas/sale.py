@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional
-from schemas.sale_item import SaleItemCreate
+from .sale_item import SaleItemCreate
 
 class SaleBase(BaseModel):
     sale_date: datetime

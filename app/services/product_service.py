@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
-from repositories.product_repo import product_repository
-from schemas.product import ProductCreate, ProductUpdate
+from ..repositories.product_repo import product_repository
+from ..schemas.product import ProductCreate, ProductUpdate
 
 def get_product(db: Session, product_id: int):
     product = product_repository.get(db, product_id)

@@ -21,5 +21,19 @@ class ProductRead(ProductBase):
     id: int
 
 class ProductUpdate(ProductBase):
-
     id: int
+
+
+def sample_product() -> dict:
+    return {
+        "barcode": "123456789",
+        "name": "Test Product",
+        "cost_price": 10.00,
+        "retail_price": 15.00,
+        "quantity": 100,
+        "category_id": 1,
+        "supplier_id": 1,
+        "image_url": "http://example.com/image.png",
+    }
+
+

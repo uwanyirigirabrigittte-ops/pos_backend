@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.receipt import Receipt
+from ..models.receipt import Receipt
 
 class ReceiptRepository:
     def __init__(self):
