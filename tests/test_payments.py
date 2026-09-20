@@ -1,3 +1,13 @@
+def _sample():
+    return {"sale_id": 1, "method": "cash", "amount_paid": 100.00}
+
+
+def test_list_payments_empty(client, auth_headers):
+    response = client.get("/payments/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_list_payments(client, auth_headers):
     response = client.get("/payments/")
     assert response.status_code == 200
@@ -15,7 +25,7 @@ def test_create_payment_invalid_data(client, auth_headers):
 
 
 def test_update_payment_not_found(client, auth_headers):
-    response = client.put("/payments/999", json={"sale_id": 1, "method": "cash", "amount_paid": 100}, headers=auth_headers)
+    response = client.put("/payments/999", json=_sample(), headers=auth_headers)
     assert response.status_code == 404
 
 

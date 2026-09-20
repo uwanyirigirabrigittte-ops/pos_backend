@@ -1,3 +1,27 @@
+def _sample():
+    return {
+        "product_id": 1,
+        "quantity": 2,
+        "unit_price": 10.00,
+    }
+
+
+def _sample_update():
+    return {
+        "sale_id": 1,
+        "product_id": 1,
+        "quantity": 2,
+        "unit_price": 10.00,
+        "line_total": 20.00,
+    }
+
+
+def test_list_sale_items_empty(client, auth_headers):
+    response = client.get("/sale-items/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_list_sale_items(client, auth_headers):
     response = client.get("/sale-items/")
     assert response.status_code == 200
@@ -15,7 +39,7 @@ def test_create_sale_item_invalid_data(client, auth_headers):
 
 
 def test_update_sale_item_not_found(client, auth_headers):
-    response = client.put("/sale-items/999", json={"sale_id": 1, "product_id": 1, "quantity": 1, "unit_price": 10, "line_total": 10}, headers=auth_headers)
+    response = client.put("/sale-items/999", json=_sample_update(), headers=auth_headers)
     assert response.status_code == 404
 
 

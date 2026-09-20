@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def _sample_sale(user_id: int, customer_id: int | None = None):
+def _sample(user_id=1):
     return {
         "sale_date": datetime.now().isoformat(),
         "sub_total": 100.00,
@@ -9,12 +9,18 @@ def _sample_sale(user_id: int, customer_id: int | None = None):
         "discount": 0.00,
         "grand_total": 110.00,
         "user_id": user_id,
-        "customer_id": customer_id,
+        "customer_id": None,
         "items": [],
     }
 
 
-def test_list_sales(client, auth_headers, admin_user):
+def test_list_sales_empty(client, auth_headers):
+    response = client.get("/sales/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_list_sales(client, auth_headers):
     response = client.get("/sales/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -31,7 +37,7 @@ def test_create_sale_invalid_data(client, auth_headers):
 
 
 def test_update_sale_not_found(client, auth_headers):
-    response = client.put("/sales/999", json=_sample_sale(1), headers=auth_headers)
+    response = client.put("/sales/999", json=_sample(), headers=auth_headers)
     assert response.status_code == 404
 
 

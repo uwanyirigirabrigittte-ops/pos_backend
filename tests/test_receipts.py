@@ -1,6 +1,20 @@
 from datetime import datetime
 
 
+def _sample():
+    return {
+        "receipt_no": "REC-001",
+        "sale_id": 1,
+        "issue_date": datetime.now().isoformat(),
+    }
+
+
+def test_list_receipts_empty(client, auth_headers):
+    response = client.get("/receipts/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_list_receipts(client, auth_headers):
     response = client.get("/receipts/")
     assert response.status_code == 200
@@ -18,7 +32,7 @@ def test_create_receipt_invalid_data(client, auth_headers):
 
 
 def test_update_receipt_not_found(client, auth_headers):
-    response = client.put("/receipts/999", json={"receipt_no": "REC001", "sale_id": 1, "issue_date": datetime.now().isoformat()}, headers=auth_headers)
+    response = client.put("/receipts/999", json=_sample(), headers=auth_headers)
     assert response.status_code == 404
 
 

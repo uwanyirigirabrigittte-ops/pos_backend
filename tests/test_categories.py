@@ -1,11 +1,15 @@
-from fastapi.testclient import TestClient
-
-
 def _sample():
     return {"name": "Test Category", "description": "A test category"}
 
 
+def test_list_categories_empty(client):
+    response = client.get("/categories/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_list_categories(client, auth_headers):
+    client.post("/categories/", json=_sample(), headers=auth_headers)
     response = client.get("/categories/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -24,7 +28,16 @@ def test_create_category(client, auth_headers):
     assert "id" in data
 
 
-def test_create_category_invalid(client, auth_headers):
+def test_create_category_returns_all_fields(client, auth_headers):
+    response = client.post("/categories/", json=_sample(), headers=auth_headers)
+    assert response.status_code == 201
+    data = response.json()
+    assert "name" in data
+    assert "description" in data
+    assert "id" in data
+
+
+def test_create_category_invalid_data(client, auth_headers):
     response = client.post("/categories/", json={}, headers=auth_headers)
     assert response.status_code == 422
 
@@ -40,8 +53,7 @@ def test_get_category_by_id(client, auth_headers):
 def test_update_category(client, auth_headers):
     create_resp = client.post("/categories/", json=_sample(), headers=auth_headers)
     cat_id = create_resp.json()["id"]
-    update_data = _sample()
-    update_data["name"] = "Updated"
+    update_data = {**{"name": "Updated", "description": "updated"}, "id": cat_id}
     response = client.put(f"/categories/{cat_id}", json=update_data, headers=auth_headers)
     assert response.status_code == 200
     assert response.json()["name"] == "Updated"
